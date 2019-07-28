@@ -28,7 +28,7 @@
                     <div class="col-md-12">
                         @card
                         @slot('title')
-                            
+
                         @endslot
 
                         @if (session('success'))
@@ -77,9 +77,9 @@
                                 </tbody>
                             </table>
                         </div>
-                        <div class="float-right">
-                            {!! $businesses->links() !!}
-                        </div>
+                        {{-- <div class="float-right"> --}}
+                            {{-- {!! $businesses->links() !!} --}}
+                        {{-- </div> --}}
                         @slot('footer')
 
                         @endslot

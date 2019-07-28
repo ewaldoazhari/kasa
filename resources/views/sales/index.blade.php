@@ -105,7 +105,7 @@
                                     </div>
                                 </div>
                             </div>
-                            
+
                             <div class="col-lg-4 col-6">
                                 <div class="small-box bg-primary">
                                     <div class="inner">
@@ -131,7 +131,7 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                @forelse ($order_details as $row)
+                                @forelse ($testdata as $row)
                                     <tr>
                                         <td>{{ $row->outlet->outlet}}</td>
                                         <td>{{ $row->product->name}}</td>
@@ -148,7 +148,9 @@
                                 </tbody>
                             </table>
                         </div>
-                        
+                        <div class="float-right">
+                             {!! $testdata->links() !!}
+                         </div>
                         @slot('footer')
 
                         @endslot

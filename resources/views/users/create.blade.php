@@ -56,6 +56,18 @@
                                 <p class="text-danger">{{ $errors->first('password') }}</p>
                             </div>
                             <div class="form-group">
+                                <label for="">Outlet</label>
+                                <select name="outlet[]" id="outlet"
+                                        class="form-control select2"
+                                        multiple="multiple" style="width: 100%;">
+                                    <option value="">Pilih</option>
+                                    @foreach ($outlets as $row)
+                                        <option value="{{ $row->id }}">{{$row->outlet }}</option>
+                                    @endforeach
+                                </select>
+                                <p class="text-danger">{{ $errors->first('outlet') }}</p>
+                            </div>
+                            <div class="form-group">
                                 <label for="">Role</label>
                                 <select name="role" class="form-control {{ $errors->has('role') ? 'is-invalid':'' }}" required>
                                     <option value="">Pilih</option>
@@ -80,4 +92,10 @@
             </div>
         </section>
     </div>
+@endsection
+@section('js')
+<script>
+    //Initialize Select2 Elements
+    $('#outlet').select2();
+</script>
 @endsection

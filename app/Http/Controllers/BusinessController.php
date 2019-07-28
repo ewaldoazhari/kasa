@@ -11,7 +11,7 @@ class BusinessController extends Controller
 {
     public function index()
     {
-        $businesses = Business::orderBy('created_at', 'DESC')->paginate(10);
+        $businesses = Business::where('id', auth()->user()->business_id)->get();
         return view('businesses.index', compact('businesses'));
     }
 
@@ -40,9 +40,12 @@ class BusinessController extends Controller
                 'office_address' => $request->office_address,
                 'city' => $request->city,
                 'phone' => $request->phone
-
-
             ]);
+
+            $user = auth()->user();
+            $user->business_id = $business->id;
+            $user->update();
+
             return redirect(route('bisnis.index'))
                 ->with(['success' => '<strong>' . $business->business_name . '</strong> Ditambahkan']);
         } catch (\Exception $e) {
@@ -76,7 +79,7 @@ class BusinessController extends Controller
             $business = Business::findOrFail($id);
 
             $business->update([
-                
+
                 'business_name' => $request->business_name,
                 'business_category_id' => $request->business_category_id,
                 'description' => $request->description,

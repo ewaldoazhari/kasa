@@ -7,6 +7,7 @@ use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use Illuminate\Support\Facades\Hash;
 use App\User;
+use App\Outlet;
 use DB;
 
 class UserController extends Controller
@@ -19,29 +20,26 @@ class UserController extends Controller
 
     public function index()
     {
-        // dd(auth()->user()->business_id);
         $users = User::where('business_id', auth()->user()->business_id)->get();
-        // $users = User::orderBy('created_at', 'DESC')->paginate(10);
         return view('users.index', compact('users'));
     }
 
     public function create()
     {
+        $outlets = Outlet::where('user_id', null)->orderBy('outlet', 'ASC')->get();
         $role = Role::orderBy('name', 'ASC')->get();
-        return view('users.create', compact('role'));
+        return view('users.create', compact('role','outlets'));
     }
 
     public function store(Request $request)
     {
-
         $role = Role::where('name', $request->role)->get();
         $roleId = $role[0]->id;
 
         $this->validate($request, [
             'name' => 'required|string|max:100',
             'email' => 'required|email|unique:users',
-            'password' => 'required|min:6',
-            'role' => 'required|string|exists:roles,name'
+            'password' => 'required|min:6'
         ]);
 
         $user = new User();
@@ -53,6 +51,14 @@ class UserController extends Controller
         $user->password = bcrypt($request->password);
         $user->status = true;
         $user->save();
+
+        if($request->outlet != null){
+            foreach($request->outlet as $ol){
+                $outlet = Outlet::find($ol);
+                $outlet->user_id = $user->id;
+                $outlet->update();
+            }
+        }
 
         $user->assignRole($request->role);
         return redirect(route('users.index'))->with(['success' => 'User: <strong>' . $user->name . '</strong> Ditambahkan']);
