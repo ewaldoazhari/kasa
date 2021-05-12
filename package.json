@@ -27,7 +27,7 @@
     "dependencies": {
         "@babel/core": "^7.5.4",
         "@babel/preset-env": "^7.5.4",
-        "chart.js": "^2.7.2",
+        "chart.js": "^2.9.4",
         "vue-select": "^2.6.4",
         "vue-sweetalert2": "^2.1.1"
     }
